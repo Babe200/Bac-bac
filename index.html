@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام نتائج البكالوريا</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2d5b7c, #3a7ca5);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* التصميم العلوي */
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .logo i {
+            font-size: 40px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(to right, #ffd700, #ffb400);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            color: #e0f7fa;
+        }
+        
+        /* تصميم البحث */
+        .search-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+            transform: translateY(-2px);
+        }
+        
+        .search-btn {
+            padding: 0 30px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(254, 180, 123, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(254, 180, 123, 0.6);
+        }
+        
+        .search-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .option-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #e0f7fa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option-btn.active {
+            background: linear-gradient(45deg, #00c9ff, #92fe9d);
+            color: #1a2a6c;
+            font-weight: bold;
+        }
+        
+        .option-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* تصميم النتائج */
+        .results-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.18);
+            transition: all 0.3s ease;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #00c9ff, #92fe9d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-icon i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            background: rgba(255,255,255,0.08);
+            padding: 15px;
+            border-radius: 15px;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #a0d2eb;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .marks-table th {
+            background: rgba(255,215,0,0.2);
+            padding: 12px;
+            text-align: right;
+        }
+        
+        .marks-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        
+        .marks-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .marks-table tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .total-score {
+            background: linear-gradient(45deg, #00c9ff, #92fe9d);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* تصميم قوائم العشرة الأوائل */
+        .top-students-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .top-students-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        
+        .top-students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .top-students-title {
+            font-size: 1.8rem;
+            color: #ffd700;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .top-students-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .student-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .student-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .student-rank {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-left: 15px;
+            flex-shrink: 0;
+        }
+        
+        .student-details {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .student-info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #a0d2eb;
+        }
+        
+        .student-score {
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            color: #e0f7fa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 20px;
+        }
+        
+        /* التصميم المتجاوب */
+        @media (max-width: 900px) {
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-btn {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .top-students-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1>نتائج امتحانات البكالوريا</h1>
+                    <div class="subtitle">العام الدراسي 2024-2025</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="ابحث برقم الجلوس...">
+                <button class="search-btn">بحث <i class="fas fa-search"></i></button>
+            </div>
+            <div class="search-options">
+                <div class="option-btn active" data-type="national">العشرة الأوائل على مستوى الوطن</div>
+                <div class="option-btn" data-type="state">فرز حسب الولاية</div>
+                <div class="option-btn" data-type="district">فرز حسب المقاطعة</div>
+                <div class="option-btn" data-type="school">فرز حسب المدرسة</div>
+                <div class="option-btn" data-type="center">فرز حسب المركز</div>
+            </div>
+        </div>
+        
+        <!-- منطقة عرض العشرة الأوائل -->
+        <div class="top-students-container" id="top-students-section">
+            <div class="top-students-card">
+                <div class="top-students-header">
+                    <div class="top-students-title">العشرة الأوائل على مستوى الوطن</div>
+                </div>
+                <div class="loading" id="loading-top">
+                    <i class="fas fa-spinner"></i>
+                    <div>جارٍ تحميل البيانات...</div>
+                </div>
+                <div class="top-students-list" id="top-students-list">
+                    <!-- سيتم تعبئة هذه المنطقة بالطلاب العشرة الأوائل -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- منطقة نتائج الطالب (تظهر فقط عند البحث برقم الجلوس) -->
+        <div class="results-container" id="student-results" style="display: none;">
+            <div class="result-card">
+                <div class="card-header">
+                    <div class="card-title">نتائج الطالب</div>
+                    <div class="card-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                </div>
+                
+                <div class="loading" id="loading-student">
+                    <i class="fas fa-spinner"></i>
+                    <div>جارٍ تحميل النتائج...</div>
+                </div>
+                
+                <div class="student-info" id="student-info" style="display: none;">
+                    <!-- سيتم تعبئة معلومات الطالب هنا -->
+                </div>
+                
+                <table class="marks-table" id="marks-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>المادة</th>
+                            <th>الدرجة</th>
+                            <th>التقدير</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marks-body">
+                        <!-- سيتم تعبئة درجات الطالب هنا -->
+                    </tbody>
+                </table>
+                
+                <div class="total-score" id="total-score" style="display: none;">
+                    <!-- سيتم تعبئة المجموع هنا -->
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <div class="card-header">
+                    <div class="card-title">تفاصيل النتيجة</div>
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+                
+                <div class="student-info" id="student-details" style="display: none;">
+                    <!-- سيتم تعبئة تفاصيل إضافية هنا -->
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center;" id="result-status" style="display: none;">
+                    <!-- حالة النجاح -->
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            © 2025 وزارة التربية - جميع الحقوق محفوظة | تم التصميم بعناية لتقديم أفضل تجربة للمستخدم
+        </footer>
+    </div>
+    
+    <script>
+        // بيانات التطبيق
+        let allStudents = [];
+        let nationalTopStudents = [];
+        let currentState = '';
+        let currentDistrict = '';
+        let currentSchool = '';
+        let currentCenter = '';
+
+        // مسارات ملفات JSON
+        const DATA_URLS = [
+            'results_part1.json',
+            'results_part2.json'
+        ];
+
+        // دالة لجلب البيانات من ملفات JSON
+        async function fetchData() {
+            try {
+                // إظهار رسالة التحميل
+                document.getElementById('loading-top').style.display = 'block';
+                document.getElementById('top-students-list').innerHTML = '';
+                
+                // جلب جميع ملفات JSON
+                const promises = DATA_URLS.map(url => 
+                    fetch(url).then(response => response.json())
+                );
+                
+                const results = await Promise.all(promises);
+                
+                // دمج جميع النتائج في مصفوفة واحدة
+                allStudents = results.flat();
+                
+                // فرز الطلاب حسب المجموع (تنازلياً)
+                allStudents.sort((a, b) => b.total - a.total);
+                
+                // استخراج العشرة الأوائل على مستوى الوطن
+                nationalTopStudents = allStudents.slice(0, 10);
+                
+                // عرض العشرة الأوائل على مستوى الوطن
+                displayTopStudents(nationalTopStudents, "العشرة الأوائل على مستوى الوطن");
+                
+                // إخفاء رسالة التحميل
+                document.getElementById('loading-top').style.display = 'none';
+                
+            } catch (error) {
+                console.error('حدث خطأ في جلب البيانات:', error);
+                document.getElementById('loading-top').innerHTML = `
+                    <div style="color: #ff6b6b; text-align: center; padding: 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+                        <div>حدث خطأ في تحميل البيانات. يرجى المحاولة لاحقاً.</div>
+                    </div>
+                `;
+            }
+        }
+
+        // دالة للبحث عن طالب برقم الجلوس
+        async function searchStudent(seatNumber) {
+            try {
+                // إظهار رسالة التحميل
+                document.getElementById('student-results').style.display = 'grid';
+                document.getElementById('loading-student').style.display = 'block';
+                document.getElementById('student-info').style.display = 'none';
+                document.getElementById('marks-table').style.display = 'none';
+                document.getElementById('total-score').style.display = 'none';
+                document.getElementById('student-details').style.display = 'none';
+                document.getElementById('result-status').style.display = 'none';
+                
+                // البحث عن الطالب في جميع الملفات
+                let foundStudent = null;
+                
+                // إذا كانت البيانات محملة مسبقاً
+                if (allStudents.length > 0) {
+                    foundStudent = allStudents.find(student => student.seatNumber === seatNumber);
+                } 
+                // إذا لم تكن البيانات محملة بعد
+                else {
+                    // البحث في كل ملف على حدة
+                    for (const url of DATA_URLS) {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        foundStudent = data.find(student => student.seatNumber === seatNumber);
+                        if (foundStudent) break;
+                    }
+                }
+                
+                if (foundStudent) {
+                    // عرض نتائج الطالب
+                    displayStudentResults(foundStudent);
+                    document.getElementById('loading-student').style.display = 'none';
+                } else {
+                    // إخفاء رسالة التحميل وإظهار رسالة الخطأ
+                    document.getElementById('loading-student').innerHTML = `
+                        <div style="color: #ff6b6b; text-align: center; padding: 20px;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem;"></i>
+                            <div>لم يتم العثور على نتائج لرقم الجلوس: ${seatNumber}</div>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('حدث خطأ في البحث:', error);
+                document.getElementById('loading-student').innerHTML = `
+                    <div style="color: #ff6b6b; text-align: center; padding: 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+                        <div>حدث خطأ في البحث. يرجى المحاولة لاحقاً.</div>
+                    </div>
+                `;
+            }
+        }
+
+        // دالة لعرض قائمة الطلاب العشرة الأوائل
+        function displayTopStudents(students, title) {
+            const container = document.getElementById('top-students-list');
+            container.innerHTML = '';
+            
+            const titleElement = document.querySelector('.top-students-title');
+            titleElement.textContent = title;
+            
+            students.forEach((student, index) => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                studentItem.innerHTML = `
+                    <div class="student-rank">${index + 1}</div>
+                    <div class="student-details">
+                        <div class="student-name">${student.name}</div>
+                        <div class="student-info-row">
+                            <span>${student.state} - ${student.district}</span>
+                            <span>${student.school}</span>
+                        </div>
+                        <div class="student-info-row">
+                            <span>رقم الجلوس: ${student.seatNumber}</span>
+                            <span class="student-score">${student.total}/600</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(studentItem);
+            });
+        }
+
+        // دالة لعرض نتائج الطالب
+        function displayStudentResults(student) {
+            // تعبئة معلومات الطالب
+            const studentInfo = document.getElementById('student-info');
+            studentInfo.innerHTML = `
+                <div class="info-item">
+                    <div class="info-label">اسم الطالب</div>
+                    <div class="info-value">${student.name}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">رقم الجلوس</div>
+                    <div class="info-value">${student.seatNumber}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">المدرسة</div>
+                    <div class="info-value">${student.school}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">المركز</div>
+                    <div class="info-value">${student.center}</div>
+                </div>
+            `;
+            
+            // تعبئة درجات المواد
+            const marksBody = document.getElementById('marks-body');
+            marksBody.innerHTML = '';
+            student.subjects.forEach(subject => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${subject.name}</td>
+                    <td>${subject.mark}</td>
+                    <td>${subject.grade}</td>
+                `;
+                marksBody.appendChild(row);
+            });
+            
+            // تعبئة المجموع
+            const totalScore = document.getElementById('total-score');
+            totalScore.textContent = `المجموع: ${student.total} من 600 - النسبة: ${student.percentage}%`;
+            
+            // تعبئة التفاصيل الإضافية
+            const studentDetails = document.getElementById('student-details');
+            studentDetails.innerHTML = `
+                <div class="info-item">
+                    <div class="info-label">الولاية</div>
+                    <div class="info-value">${student.state}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">المقاطعة</div>
+                    <div class="info-value">${student.district}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">الترتيب على المدرسة</div>
+                    <div class="info-value">${student.rank.school}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">الترتيب على الولاية</div>
+                    <div class="info-value">${student.rank.state}</div>
+                </div>
+            `;
+            
+            // تعبئة حالة النتيجة
+            const resultStatus = document.getElementById('result-status');
+            resultStatus.innerHTML = `
+                <div style="font-size: 1.2rem; color: #ffd700; margin-bottom: 10px;">حالة النجاح: 
+                    <span style="color: #92fe9d;">${student.status}</span>
+                </div>
+                <div style="display: inline-block; padding: 8px 25px; 
+                    background: linear-gradient(45deg, #00c9ff, #92fe9d); 
+                    border-radius: 30px; font-weight: bold;">
+                    <i class="fas fa-medal"></i> ${student.distinction}
+                </div>
+            `;
+            
+            // إظهار جميع العناصر
+            document.getElementById('student-info').style.display = 'grid';
+            document.getElementById('marks-table').style.display = 'table';
+            document.getElementById('total-score').style.display = 'block';
+            document.getElementById('student-details').style.display = 'grid';
+            document.getElementById('result-status').style.display = 'block';
+        }
+
+        // دالة للحصول على العشرة الأوائل حسب النوع
+        function getTopStudents(type) {
+            if (allStudents.length === 0) return [];
+            
+            let students = [];
+            let title = '';
+            
+            switch(type) {
+                case 'national':
+                    students = nationalTopStudents;
+                    title = "العشرة الأوائل على مستوى الوطن";
+                    break;
+                    
+                case 'state':
+                    // إذا لم يتم تحديد الولاية، استخدم الولاية الأولى كافتراضية
+                    const state = currentState || allStudents[0].state;
+                    students = allStudents
+                        .filter(s => s.state === state)
+                        .slice(0, 10);
+                    title = `العشرة الأوائل في ولاية ${state}`;
+                    break;
+                    
+                case 'district':
+                    // إذا لم يتم تحديد المقاطعة، استخدم مقاطعة الطالب الأول كافتراضية
+                    const district = currentDistrict || allStudents[0].district;
+                    students = allStudents
+                        .filter(s => s.district === district)
+                        .slice(0, 10);
+                    title = `العشرة الأوائل في مقاطعة ${district}`;
+                    break;
+                    
+                case 'school':
+                    // إذا لم يتم تحديد المدرسة، استخدم مدرسة الطالب الأول كافتراضية
+                    const school = currentSchool || allStudents[0].school;
+                    students = allStudents
+                        .filter(s => s.school === school)
+                        .slice(0, 10);
+                    title = `الطلاب العشرة الأوائل في ${school}`;
+                    break;
+                    
+                case 'center':
+                    // إذا لم يتم تحديد المركز، استخدم مركز الطالب الأول كافتراضية
+                    const center = currentCenter || allStudents[0].center;
+                    students = allStudents
+                        .filter(s => s.center === center)
+                        .slice(0, 10);
+                    title = `الطلاب العشرة الأوائل في مركز ${center}`;
+                    break;
+            }
+            
+            return { students, title };
+        }
+
+        // تهيئة التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // جلب البيانات الأولية
+            fetchData();
+            
+            // إعداد تفاعلية أزرار الفرز
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // إزالة النشاط من جميع الأزرار
+                    optionButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // إضافة النشاط للزر المحدد
+                    this.classList.add('active');
+                    
+                    // إخفاء نتائج الطالب
+                    document.getElementById('student-results').style.display = 'none';
+                    
+                    // إظهار قائمة العشرة الأوائل
+                    document.getElementById('top-students-section').style.display = 'block';
+                    
+                    // تحديد نوع الفرز
+                    const type = this.getAttribute('data-type');
+                    
+                    // إظهار رسالة التحميل
+                    document.getElementById('loading-top').style.display = 'block';
+                    document.getElementById('top-students-list').innerHTML = '';
+                    
+                    // الحصول على الطلاب حسب النوع
+                    const { students, title } = getTopStudents(type);
+                    
+                    // عرض الطلاب بعد تأخير بسيط لمحاكاة جلب البيانات
+                    setTimeout(() => {
+                        displayTopStudents(students, title);
+                        document.getElementById('loading-top').style.display = 'none';
+                    }, 300);
+                });
+            });
+
+            // إعداد تفاعلية زر البحث
+            const searchBtn = document.querySelector('.search-btn');
+            searchBtn.addEventListener('click', function() {
+                const searchInput = document.getElementById('search-input');
+                const seatNumber = searchInput.value.trim();
+                
+                if(seatNumber === '') {
+                    searchInput.placeholder = 'الرجاء إدخال رقم جلوس...';
+                    searchInput.style.border = '2px solid #ff7e5f';
+                    setTimeout(() => {
+                        searchInput.style.border = 'none';
+                    }, 2000);
+                    return;
+                }
+                
+                // إزالة النشاط من أزرار الفرز
+                optionButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // إخفاء قائمة العشرة الأوائل
+                document.getElementById('top-students-section').style.display = 'none';
+                
+                // البحث عن الطالب
+                searchStudent(seatNumber);
+            });
+            
+            // السماح بالبحث عند الضغط على Enter
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
